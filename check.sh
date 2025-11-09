@@ -6,6 +6,10 @@ if [ -z $GITLAB_DOMAIN ]; then
     GITLAB_DOMAIN="gitlab.com"
 fi
 
+GITLAB_DOMAIN="framagit.org"
+PROJECT_ID="90566"
+REPO="ppom/reaction"
+
 current_version=$(cat $MAKEFILE | grep PKG_VERSION | head -n 1 | cut -d "=" -f 2)
 current_hash=$(cat $MAKEFILE | grep PKG_HASH | head -n 1 | cut -d "=" -f 2)
 echo "Current version: $current_version"
@@ -40,15 +44,21 @@ if [ $current_hash = $hash ]; then
     exit 0
 fi
 
-exit 0
-
-echo "Update to $latest_version"
+echo "Update to $latest_version - $MAKEFILE"
 sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$latest_version_number/g" $MAKEFILE
 sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/g" $MAKEFILE
 sed -i "s/PKG_HASH:=.*/PKG_HASH:=$hash/g" $MAKEFILE
 
-git config user.name "bot"
-git config user.email "bot@github.com"
+exit 0
+
+if ! git config user.name >/dev/null 2>&1; then
+  git config user.name "bot" || true
+fi
+
+if ! git config user.email >/dev/null 2>&1; then
+  git config user.email "bot@github.com" || true
+fi
+
 git add .
 if [ -z "$(git status --porcelain)" ]; then
     echo "No changes to commit"
