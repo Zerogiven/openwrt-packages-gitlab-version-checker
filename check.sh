@@ -66,6 +66,7 @@ if [ -z $BRANCH ]; then
 fi
 
 git commit -m "Bump $REPO to $latest_version"
+git push "https://x-access-token:$COMMIT_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:$BRANCH
 
 # Prevent duplicate tags
 if git rev-parse --verify --quiet "refs/tags/${latest_version}" >/dev/null; then
@@ -78,6 +79,4 @@ if git ls-remote --tags origin | awk '{print $2}' | grep -x "refs/tags/${latest_
 fi
 
 git tag -a "${latest_version}" -m "Release ${latest_version}"
-git push origin "${latest_version}"
-
-git push "https://x-access-token:$COMMIT_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:$BRANCH
+git push "https://x-access-token:$COMMIT_TOKEN@github.com/$GITHUB_REPOSITORY" "${latest_version}"
