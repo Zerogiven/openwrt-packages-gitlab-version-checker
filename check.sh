@@ -6,10 +6,6 @@ if [ -z $GITLAB_DOMAIN ]; then
     GITLAB_DOMAIN="gitlab.com"
 fi
 
-GITLAB_DOMAIN="framagit.org"
-PROJECT_ID="90566"
-REPO="ppom/reaction"
-
 current_version=$(cat $MAKEFILE | grep PKG_VERSION | head -n 1 | cut -d "=" -f 2)
 current_hash=$(cat $MAKEFILE | grep PKG_HASH | head -n 1 | cut -d "=" -f 2)
 echo "Current version: $current_version"
