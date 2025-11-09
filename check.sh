@@ -28,7 +28,7 @@ latest_version_number=$(echo $latest_version | cut -d "v" -f 2)
 echo "Latest version number: $latest_version_number"
 
 if [ -z $SOURCE_URL ]; then
-    SOURCE_URL="https://$GITLAB_DOMAIN/$REPO/-/archive/$latest_version/reaction-$latest_version.tar.gz"
+    SOURCE_URL="https://$GITLAB_DOMAIN/$REPO/-/archive/$latest_version/$latest_version.tar.gz"
 else
     SOURCE_URL=$(echo $SOURCE_URL | sed "s/{{version}}/$latest_version_number/g")
 fi
